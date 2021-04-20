@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace VismaAuthentication.Models
+﻿namespace VismaAuthentication.Models
 {
     public class GoogleResponseModel
     {
