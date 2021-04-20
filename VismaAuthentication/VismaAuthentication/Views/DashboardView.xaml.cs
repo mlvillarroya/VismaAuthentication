@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VismaAuthentication.ViewModels;
+using VismaAuthentication.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using VismaAuthentication.ViewModels;
@@ -11,12 +11,13 @@ using VismaAuthentication.ViewModels;
 namespace VismaAuthentication.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AuthenticatorView : ContentPage
+    public partial class DashboardView : ContentPage
     {
-        public AuthenticatorView()
+        public DashboardView(GoogleResponseModel userInfo)
         {
             InitializeComponent();
-            BindingContext = new AuthenticatorViewModel(Navigation);
+            BindingContext = new DashboardViewModel(userInfo);
         }
+
     }
 }

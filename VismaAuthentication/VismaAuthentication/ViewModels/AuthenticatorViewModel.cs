@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VismaAuthentication.Models;
+using VismaAuthentication.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -14,6 +15,9 @@ namespace VismaAuthentication.ViewModels
 {
     public class AuthenticatorViewModel : BaseViewModel
     {
+        private GoogleResponseModel userInfo { get; set; }
+        public INavigation Navigation { get; set; }
+              
         const string authenticationUrl = "http://enigmatic-basin-12787.herokuapp.com/mobileauth/"; //Back end
 
         private JsonSerializer _serializer = new JsonSerializer();
@@ -39,8 +43,9 @@ namespace VismaAuthentication.ViewModels
             set => SetProperty(ref accessToken, value);
         }
 
-        public AuthenticatorViewModel()
+        public AuthenticatorViewModel(INavigation navigation)
         {
+            this.Navigation = navigation;
             GoogleCommand = new Command(async () => await OnAuthenticate("Google"));
         }
 
@@ -76,9 +81,9 @@ namespace VismaAuthentication.ViewModels
             using (var reader = new StreamReader(stream))
             using (var json = new JsonTextReader(reader))
             {
-                var jsoncontent = _serializer.Deserialize<GoogleResponseModel>(json);
+                var userInfo = _serializer.Deserialize<GoogleResponseModel>(json);
                 Preferences.Set("UserToken", authToken);
-                Email = jsoncontent.email;
+                await Navigation.PushAsync(new DashboardView(userInfo));
 
             }
 
